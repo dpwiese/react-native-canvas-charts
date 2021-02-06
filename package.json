@@ -1,6 +1,6 @@
 {
   "name": "@dpwiese/react-native-canvas-charts",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "WebView wrapper with for using canvas based charts",
   "author": "Daniel Wiese <dpwiese@gmail.com> (https://danielwiese.com)",
   "license": "MIT",

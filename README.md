@@ -4,6 +4,7 @@
 ![npm (scoped)](https://img.shields.io/npm/v/@dpwiese/react-native-canvas-charts)
 
 [react-native-canvas-charts](https://github.com/dpwiese/react-native-canvas-charts) provides a simple wrapper around [react-native-webview](https://github.com/react-native-webview/react-native-webview) for making canvas-based charts in React Native.
+Read more in the post [Canvas Charts in React Native](https://danielwiese.com/posts/react-native-canvas-charts/).
 
 ## Install
 
@@ -19,7 +20,7 @@
 Currently [react-native-canvas-charts](https://github.com/dpwiese/react-native-canvas-charts) only supports [Chart.js](https://www.chartjs.org) version 3.
 To use, simply import `ChartJs`, define the standard Chart.js [Dataset Configuration](https://www.chartjs.org/docs/master/configuration/index#dataset-configuration) and pass it to the `config` prop.
 
-```
+```js
 import { ChartJs } from "@dpwiese/react-native-canvas-charts";
 import React from "react";
 
@@ -95,8 +96,8 @@ export default () => <ChartJs config={chartConfig} style={{height: 500}}/>;
 
 To stream data to the chart, the `setData` ref can be used as below
 
-```
-import { ChartJs } from "@dpwiese/react-native-canvas-charts";
+```js
+import { ChartJs, SetData } from "@dpwiese/react-native-canvas-charts";
 import React, { useRef } from "react";
 import { chartConfig } from "./chartConfig";
 
@@ -104,7 +105,7 @@ export default () => {
   const setDataRef = useRef<SetData>();
 
   // Update the charted data with newData
-  setDataRef.current?.setData([allData.concat(newData)]);
+  setDataRef.current?.setData(newData);
 
   return (<ChartJs config={chartConfig} style={{height: 500}} ref={setDataRef}/>);
 }
