@@ -5,6 +5,9 @@
 
 [react-native-canvas-charts](https://github.com/dpwiese/react-native-canvas-charts) provides a simple wrapper around [react-native-webview](https://github.com/react-native-webview/react-native-webview) for making canvas-based charts in React Native.
 Read more in the post [Canvas Charts in React Native](https://danielwiese.com/posts/react-native-canvas-charts/).
+Currently supports [Chart.js](https://www.chartjs.org) and [uPlot](https://github.com/leeoniya/uPlot).
+
+![react-native-canvas-charts](img/react-native-canvas-charts.png "react-native-canvas-charts")
 
 ## Install
 
@@ -18,11 +21,10 @@ Read more in the post [Canvas Charts in React Native](https://danielwiese.com/po
 ### Chart.js
 
 Currently [react-native-canvas-charts](https://github.com/dpwiese/react-native-canvas-charts) only supports [Chart.js](https://www.chartjs.org) version 3.
-To use, simply import `ChartJs`, define the standard Chart.js [Dataset Configuration](https://www.chartjs.org/docs/master/configuration/index#dataset-configuration) and pass it to the `config` prop.
+To use, simply import `Chart`, define the standard Chart.js [Dataset Configuration](https://www.chartjs.org/docs/master/configuration/index#dataset-configuration) and pass it to the `config` prop.
 
 ```js
-import { ChartJs } from "@dpwiese/react-native-canvas-charts";
-import React from "react";
+import { Chart } from "@dpwiese/react-native-canvas-charts/ChartJs";
 
 const chartConfig = {
   type: "line",
@@ -89,24 +91,62 @@ const chartConfig = {
   },
 };
 
-export default () => <ChartJs config={chartConfig} style={{height: 500}}/>;
+export default () => <Chart config={chartConfig}/>;
 ```
 
-### Streaming Data
+#### Streaming Data
 
 To stream data to the chart, the `setData` ref can be used as below
 
 ```js
-import { ChartJs, SetData } from "@dpwiese/react-native-canvas-charts";
-import React, { useRef } from "react";
+import { Chart, SetData } from "@dpwiese/react-native-canvas-charts/ChartJs";
+import { useRef } from "react";
 import { chartConfig } from "./chartConfig";
 
 export default () => {
   const setDataRef = useRef<SetData>();
 
   // Update the charted data with newData
-  setDataRef.current?.setData(newData);
+  setDataRef.current.setData(newData);
 
-  return (<ChartJs config={chartConfig} style={{height: 500}} ref={setDataRef}/>);
+  return (<Chart config={chartConfig} ref={setDataRef}/>);
 }
+```
+
+### uPlot
+
+[uPlot](https://github.com/leeoniya/uPlot) is a very performant canvas-based plotting library supported by [react-native-canvas-charts](https://github.com/dpwiese/react-native-canvas-charts).
+To use, simply import `UPlot` and pass it [`data`](https://github.com/leeoniya/uPlot/tree/master/docs#data-format) and [`opts`](https://github.com/leeoniya/uPlot/tree/master/docs#basics).
+
+```js
+import { UPlot } from "@dpwiese/react-native-canvas-charts/UPlot";
+
+const opts = {
+  title: "My Chart",
+  id: "chart1",
+  class: "my-chart",
+  width: 400,
+  height: 600,
+  series: [
+    {},
+    {
+      show: true,
+      spanGaps: false,
+      label: "RAM",
+      value: (self, rawValue) => "$" + rawValue.toFixed(2),
+      stroke: "red",
+      width: 1,
+      fill: "rgba(255, 0, 0, 0.3)",
+      dash: [10, 5],
+    },
+  ],
+};
+
+const data = [
+  [0, 100],
+  [35, 71],
+  [90, 15],
+];
+
+export default () => <UPlot opts={opts} data={data}/>;
 ```
