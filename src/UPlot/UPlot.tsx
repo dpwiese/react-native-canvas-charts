@@ -1,9 +1,9 @@
 import React, { ReactElement, forwardRef, useImperativeHandle } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from "react-native";
 import { WebView } from "react-native-webview";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const chartJsHtml = require("./index.html");
+const htmlTemplate = require("./index.html");
 
 const styles = StyleSheet.create({
   container: {
@@ -15,40 +15,35 @@ const styles = StyleSheet.create({
   },
 });
 
-export type DataPoint = {
-  x: number;
-  y: number;
+export type SetData = {
+  setData: (data: number[][]) => void;
 };
 
-export type SetData = {
-  setData: (data: DataPoint[][]) => void;
-};
+type ChartStyle = StyleProp<ViewStyle> & { height: number };
 
 type Props = {
-  config: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  dataSets?: DataPoint[][];
-  style?: StyleProp<ViewStyle>;
+  opts: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  data: number[][];
+  style?: ChartStyle;
 };
 
-export const ChartJs = forwardRef(
+export const UPlot = forwardRef(
   (props: Props, ref): ReactElement => {
     let webref: WebView<{ originWhitelist: string[]; ref: unknown; source: { html: string } }> | null;
+    const windowWidth = useWindowDimensions().width;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const addChart = (config: any): void => {
-      webref?.injectJavaScript(`const canvasEl = document.createElement("canvas");
-        canvasEl.height = ${JSON.stringify(styles.webview.height)};
-        document.body.appendChild(canvasEl);
-        window.canvasLine = new Chart(canvasEl.getContext('2d'), ${JSON.stringify(config)});true;`);
+    const addChart = (opts: any, data: number[][]): void => {
+      // Subtracting height of u-title and u-legend and some more?
+      opts.height = (props.style?.height || 200) - 27 - 58 - 30;
+      opts.width = windowWidth - 20;
+      webref?.injectJavaScript(
+        `let uplot = new uPlot(${JSON.stringify(opts)}, ${JSON.stringify(data)}, document.body);true;`
+      );
     };
 
-    const setData = (dataSets: DataPoint[][]): void => {
-      if (dataSets) {
-        dataSets.forEach((_: DataPoint[], i: number) => {
-          webref?.injectJavaScript(`window.canvasLine.config.data.datasets[${i}].data = ${JSON.stringify(dataSets[i])};
-          window.canvasLine.update();true;`);
-        });
-      }
+    const setData = (data: number[][]): void => {
+      webref?.injectJavaScript(`uplot.setData(${JSON.stringify(data)});true;`);
     };
 
     useImperativeHandle(ref, () => ({
@@ -63,9 +58,9 @@ export const ChartJs = forwardRef(
           ref={(r): WebView<{ originWhitelist: string[]; ref: unknown; source: { html: string } }> | null =>
             (webref = r)
           }
-          source={chartJsHtml}
+          source={htmlTemplate}
           onLoadEnd={(): void => {
-            addChart(props.config);
+            addChart(props.opts, props.data);
           }}
           style={styles.webview}
         />
