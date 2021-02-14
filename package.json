@@ -1,6 +1,6 @@
 {
   "name": "@dpwiese/react-native-canvas-charts",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "WebView wrapper for using canvas based charts in React Native",
   "author": "Daniel Wiese <dpwiese@gmail.com> (https://danielwiese.com)",
   "license": "MIT",
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/dpwiese/react-native-canvas-charts.git"
   },
   "scripts": {
-    "build": "rm -rf dist && babel src --out-dir dist --extensions '.ts,.tsx' --copy-files && tsc --project tsconfig.json --emitDeclarationOnly && cp -rf package.json dist",
+    "build": "rm -rf dist && babel src --out-dir dist --extensions '.ts,.tsx' --copy-files && tsc --project tsconfig.json --emitDeclarationOnly && cp -rf package.json dist && cp -rf README.md dist",
     "pack": "cd dist && npm pack && cd ..",
     "lint": "eslint src --ext .ts,.tsx --fix",
     "tc": "tsc --project tsconfig.json --noEmit",
