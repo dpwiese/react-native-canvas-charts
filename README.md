@@ -91,7 +91,7 @@ const chartConfig = {
   },
 };
 
-export default () => <Chart config={chartConfig}/>;
+export default () => <Chart config={chartConfig} style={{height: '50%', width: '100%'}}/>;
 ```
 
 #### Streaming Data
@@ -109,7 +109,7 @@ export default () => {
   // Update the charted data with newData
   setDataRef.current.setData(newData);
 
-  return (<Chart config={chartConfig} ref={setDataRef}/>);
+  return (<Chart config={chartConfig} ref={setDataRef} style={{height: '50%', width: '100%'}}/>);
 }
 ```
 
@@ -148,5 +148,5 @@ const data = [
   [90, 15],
 ];
 
-export default () => <UPlot opts={opts} data={data}/>;
+export default () => <UPlot opts={opts} data={data} style={{height: '50%', width: '100%'}}/>;
 ```
