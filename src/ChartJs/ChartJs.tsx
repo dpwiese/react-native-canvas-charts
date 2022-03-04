@@ -1,6 +1,7 @@
 import React, { ReactElement, forwardRef, useImperativeHandle } from "react";
 import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
 import { WebView } from "react-native-webview";
+import { ChartConfiguration, ChartType } from "chart.js";
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const htmlTemplate = require("./index.html");
@@ -24,13 +25,13 @@ export type SetData = {
   setData: (data: DataPoint[][]) => void;
 };
 
-type Props = {
-  config: any; // eslint-disable-line @typescript-eslint/no-explicit-any
-  dataSets?: DataPoint[][];
+type Props<TType extends ChartType = ChartType> = {
+  config: ChartConfiguration<TType>;
+  dataSets?: ChartConfiguration<TType>["data"]["datasets"];
   style?: StyleProp<ViewStyle>;
 };
 
-export const ChartJs = forwardRef(
+const ChartJsForwarded = forwardRef(
   (props: Props, ref): ReactElement => {
     let webref: WebView<{ originWhitelist: string[]; ref: unknown; source: { html: string } }> | null;
 
@@ -73,3 +74,5 @@ export const ChartJs = forwardRef(
     );
   }
 );
+
+export const ChartJs = ChartJsForwarded as <TType extends ChartType = ChartType>(props: Props<TType>) => JSX.Element;
