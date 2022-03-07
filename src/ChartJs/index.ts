@@ -1,5 +1,5 @@
-import { ChartJs, DataPoint, SetData } from "./ChartJs";
+import { ChartJs } from "./ChartJs";
+
+export type { ChartJsData, ChartJsRef, SetNewConfigDataType, WithChartJsRef } from "./types";
 
 export { ChartJs as Chart };
-
-export type { DataPoint, SetData };

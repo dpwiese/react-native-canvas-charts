@@ -1,60 +1,43 @@
 module.exports = {
   root: true,
-  extends: "@react-native-community",
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint", "prettier", "jest"],
+  extends: [
+    "@react-native-community",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "prettier",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+  ],
   rules: {
-    "semi": "error",
-    "no-console": "off",
-    "no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-    "quotes": ["error", "double", { "avoidEscape": true, "allowTemplateLiterals": true}],
-    "react-hooks/exhaustive-deps": "off",
-    "object-curly-spacing": ["error", "always"],
-    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "linebreak-style": "off",
-    "prettier/prettier": [
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-ts-comment": "warn",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+    "import/no-duplicates": ["error"],
+    "react-hooks/exhaustive-deps": "warn",
+    "react/react-in-jsx-scope": "error",
+    "react-native/no-unused-styles": 2,
+    "react-native/no-inline-styles": 1,
+    "react-native/no-color-literals": 1,
+    "react-native/no-raw-text": 0,
+    "react-native/no-single-element-style-arrays": 2,
+    "import/no-unresolved": 0, // TS does this for us
+    "import/namespace": 0, // does not play well with TS
+    "import/first": 2,
+    "import/newline-after-import": 1,
+    "react/jsx-key": 2,
+    "import/order": [
       "error",
       {
-        "endOfLine": "auto"
+        // the default + types at the end
+        groups: ["builtin", "external", "parent", "sibling", "index", "type"],
       },
-      { "usePrettierrc": true }
     ],
-    "react/display-name": "off",
-    "sort-imports": [
-      "warn",
-      {
-        "ignoreCase": false,
-        "ignoreDeclarationSort": false,
-        "ignoreMemberSort": false,
-        "memberSyntaxSortOrder": ["none", "all", "multiple", "single"]
-      }
-    ]
   },
-  overrides: [
-    {
-      "files": ["**/*.ts", "**/*.tsx"],
-      "extends": [
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint"
-      ],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": "./tsconfig.json"
-      },
-      "plugins": ["@typescript-eslint"],
-      "rules": {
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }]
-      },
-      "settings": {
-        "react": {
-          "version": "detect"
-        },
-        "import/parsers": {
-          "@typescript-eslint/parser": [".ts", ".tsx"]
-        },
-        "import/resolver": {
-          "typescript": {}
-        }
-      }
-    }
-  ]
 };

@@ -1,8 +1,9 @@
-import React, { ReactElement, forwardRef, useImperativeHandle } from "react";
-import { StyleProp, StyleSheet, View, ViewStyle, useWindowDimensions } from "react-native";
+import React, { forwardRef, useImperativeHandle } from "react";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { WebView } from "react-native-webview";
+import type { ReactElement } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const htmlTemplate = require("./index.html");
 
 const styles = StyleSheet.create({
