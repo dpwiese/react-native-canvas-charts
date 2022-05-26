@@ -91,7 +91,7 @@ const chartConfig = {
   },
 };
 
-export default () => <Chart config={chartConfig}/>;
+export default () => <Chart config={chartConfig} style={{height: '100%', width: '100%'}}/>;
 ```
 
 #### Streaming Data
@@ -109,7 +109,7 @@ export default () => {
   // Update the charted data with newData
   setDataRef.current.setData(newData);
 
-  return (<Chart config={chartConfig} ref={setDataRef}/>);
+  return (<Chart config={chartConfig} ref={setDataRef} style={{height: '100%', width: '100%'}}/>);
 }
 ```
 
